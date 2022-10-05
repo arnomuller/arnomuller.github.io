@@ -1,0 +1,432 @@
+---
+title: "Analyse des données longitudinales"
+subtitle: "2022-2023 <br> M2 Expertise Sciences des Populations <br>  <br> Séance 4"
+author: "Arno Muller"
+execute:
+  echo: true
+format:
+  revealjs:
+    incremental: false
+    smaller: false
+    scrollable: true
+    theme: simple
+   # logo: img/logo.svg
+    chalkboard:
+      chalk-width: 5
+      chalk-effect: 0.3
+      boardmarker-width: 1
+editor: visual
+---
+
+## Rappel séance précédente
+
+<br>
+
+::: incremental
+-   Données
+    -   Prospective
+
+    -   Rétrospective
+-   Format des données
+:::
+
+## 
+
+# Travaux Pratiques :
+
+Des questions sur R ?
+
+------------------------------------------------------------------------
+
+## Rappel sur R basic
+
+<br>
+
+**Accès vers une colonne :**
+
+-   data_frame\$nom_colonne
+
+-   data_frame\[numéro_de_la_colonne\]
+
+<br>
+
+**Sélection de lignes :**
+
+-   data_frame\[data_frame\$nom_colonne == "modalité",\]
+
+```{r}
+library(questionr)
+data(happy)
+addmargins(table(happy$happy, useNA = "always"))
+
+hop <- happy[happy$happy %in% c("very happy", "pretty happy"),]
+nrow(hop)
+ncol(hop)
+dim(hop)
+
+```
+
+<br>
+
+**Sélection de colonnes :**
+
+-   data_frame\[ , c(numéro_de_colonnes)\]
+
+```{r}
+names(happy)
+hop <- happy[ , c(2,3:9)]
+dim(hop)
+names(hop)
+
+```
+
+<br>
+
+**La fonction subset :**
+
+```{r}
+hop <- subset(happy, happy %in% c("very happy", "pretty happy"), select = c(2,3:9)) 
+dim(hop)
+colnames(hop)
+
+```
+
+## Rappel sur le tidyverse
+
+<br>
+
+Lien vers le site de Julien Barnier qui le présente : [ici](https://juba.github.io/tidyverse/06-tidyverse.html)
+
+Un univers de package qui fonctionnent ensemble :
+
+-   ggplot2 () : Traitements graphiques
+
+-   tidyr () : Mise en forme de données
+
+-   dplyr () : Gestion de données
+
+-   readr () : Importation de données ASCII
+
+-   stringr () : Traitement chaînes de caractères
+
+-   forcats () : Gestion des facteurs
+
+-   readxl () : Importation de données Excel
+
+-   purrr () : Permet de faire des fonctions plus simples
+
+-   tibble () : Data frame particulier
+
+-   lubridate ()\* : Traitement des dates
+
+## Manipulation des données avec dplyr
+
+Lien vers la cheatsheet : [ici](https://thinkr.fr/pdf/dplyr-french-cheatsheet.pdf)
+
+**5 fonctions** principales :
+
+-   *select()*: Sélection de colonnes(variables)
+
+-   *filter()*: Sélection de lignes(observations)
+
+-   *arrange()*: Réordonnancement des lignes du dataframe
+
+-   *mutate()*: Ajout de colonnes(création de variables)
+
+-   *summarise()*: Production de statistiques résumées
+
+------------------------------------------------------------------------
+
+![](img/dplyr.PNG){fig-align="center" width="6000"}
+
+------------------------------------------------------------------------
+
+## Select():
+
+<br>
+
+**Permet de définir une liste de variables à sélectionner dans le data frame**
+
+```{r}
+library(dplyr)
+
+hop <- happy %>% 
+  select(happy, marital, health, sex, degree)
+names(hop)
+
+
+```
+
+<br>
+
+**Selectionner tout sauf un élément**
+
+```{r}
+hop <- happy %>% 
+  select(-marital)
+names(hop)
+```
+
+<br>
+
+**Réordonner les variables**
+
+```{r}
+hop <- happy %>% 
+  select(happy,marital, everything())
+names(hop)
+```
+
+<br>
+
+**Facilités d'écritures :**
+
+-   starts_with () : nom de la variable commence avec la chaîne de caractère voulue
+
+-   ends_with () : nom de la variable finit avec la chaîne de caractère voulue
+
+-   contains () : nom de la variable contient la chaîne de caractère voulue
+
+-   all_of () : sélectionne toutes les variables dont les noms sont contenus dans un autres vecteurs
+
+-   everything () : sélectionne toutes les variables restantes
+
+```{r}
+
+names(happy)
+
+hop <- happy %>% 
+  select(happy, everything())
+names(hop)
+
+hop <- happy %>% 
+  select(starts_with("h"))
+names(hop)
+
+hop <- happy %>% 
+  select(ends_with("la"))
+names(hop)
+
+hop <- happy %>% 
+  select(contains("re"))
+names(hop)
+```
+
+## filter()
+
+<br>
+
+**Permet de définir une liste d'observations sélectionnées en regard de conditions**
+
+```{r}
+nrow(happy)
+
+hop <- happy %>% 
+  filter(happy == "very happy")
+nrow(hop)
+
+hop <- happy %>% 
+  filter(happy %in% c("very happy", "pretty happy"))
+nrow(hop)
+
+hop <- happy %>% 
+  filter(age < 30 & happy == "very happy" )
+nrow(hop)
+
+
+
+```
+
+## arrange()
+
+<br>
+
+**Permet de réordonner les observations en fonction de clés de tris**
+
+```{r}
+#| tbl-colwidths: [60,40]
+
+
+library(DT)
+library(knitr)
+library(kableExtra)
+
+hop <- happy %>% 
+  arrange(sex)
+kable(head(hop)) %>%
+  kable_styling(font_size = 12)
+
+```
+
+<br>
+
+```{r}
+hop <- happy %>% 
+  arrange(sex, age)
+kable(head(hop)) %>%
+  kable_styling(font_size = 12)
+```
+
+<br>
+
+```{r}
+hop <- happy %>% 
+  arrange(sex, desc(age))
+kable(head(hop))%>%
+  kable_styling(font_size = 12)
+```
+
+## mutate()
+
+**Permet de créer une variable individuelle en fonction de variables existantes**
+
+Voir séance précédentes.
+
+## summarise()
+
+<br>
+
+**Permet de produire des statistiques à un niveau agrégé . Il faut indiquer le(s) critère(s) d'agrégation et la(les) statistique(s) à calculer.**
+
+*Syntaxe :*
+
+-   Exemple de fonction : count, mean, sum, max
+
+-   Possibilité de préciser des conditions dans les calculs : sum(x \>10)
+
+-   Résultats peut-être stocké au niveau individuel (mutate) ou aggrégé (summarise)
+
+-   na.rm = TRUE : permet de ne pas compter les valeurs manquantes.
+
+-   La fonction *group_by()* permet de spécifier les critères d'aggrégation
+
+<br>
+
+**Dans mutate**:
+
+```{r}
+
+hop <- happy %>% 
+  group_by(sex) %>% 
+  mutate(age_moyen_sexe = mean(age, na.rm = TRUE)) %>% 
+  select(sex, age, age_moyen_sexe, everything())
+
+kable(head(hop))%>%
+  kable_styling(font_size = 12)
+
+```
+
+**Dans summarize :**
+
+```{r}
+hop <- happy %>% 
+  group_by(sex) %>% 
+  summarise(age_moyen_sexe = mean(age, na.rm = TRUE))
+kable(hop)
+
+hop <- happy %>% 
+  group_by(sex) %>% 
+  summarise(age_max_sexe = max(age, na.rm = TRUE))
+kable(hop)
+
+hop <- happy %>% 
+  group_by(sex) %>% 
+  summarise(n_sexe = n())
+kable(hop)
+```
+
+## Les jointures
+
+![](img/jointure1.PNG){fig-align="center"}
+
+![](img/jointure2.PNG){fig-align="center"}
+
+```{r}
+hop <- happy %>% 
+  ungroup() %>% 
+  group_by(sex, marital) %>% 
+  summarise(age_moy_sexe_marital = mean(age, na.rm = TRUE))
+hop
+
+
+happy2 <- happy %>% 
+  left_join(hop, by = c("sex", "marital")) %>% 
+  select(sex, age, age_moy_sexe_marital) %>% 
+  mutate(diffagemax = age - age_moy_sexe_marital)
+kable(head(happy2))%>%
+  kable_styling(font_size = 12)
+
+
+```
+
+## Format de données
+
+<br>
+
+-   Large
+
+-   Semi-long
+
+-   Long
+
+**Attention :** les bases sont souvent divisées. On aura une base par parcours, accompagné d'une base individuelle contenant les informations socio-démographiques. Il faudra donc les joindre pour l'analyse.
+
+## Format large
+
+<br>
+
+-   Un individu par ligne
+
+![](images/paste-435B1D31.png)
+
+-   **Inconvénient :** peut générer beaucoup de variables avec des valeurs manquantes et donc des fichiers plus lourds.
+
+## Format semi-long
+
+<br>
+
+-   Une ligne par évenement ; *individu-évenement*
+
+![](images/paste-6BA9C70E.png)
+
+Ce format est souvent celui qui est privilégié dans les mises à disposition de données biographiques. (léger) et dans les modèles de durées.
+
+**Inconvénient** : demande des manipulations pour être analysé
+
+![](images/paste-C2C9D58C.png)
+
+## Format long
+
+<br>
+
+-   Une ligne par année : *individu-année*
+
+![](images/paste-89AE24DB.png)
+
+-   Utilisé dans beaucoup d'analyses (notamment les analyses en temps discret)
+
+## Passage d'un format à l'autre
+
+<br>
+
+**Large vers long (ou semi-long**):
+
+![](images/paste-B7A4424A.png)
+
+<br>
+
+**Semi-long vers long** :
+
+![](images/paste-1E94A911.png)
+
+On a deux fois l'année (t) 2, passage d'un état à un autre.
+
+<br>
+
+**Attention** : il peut y avoir des événements simultanés (ex : couple polygame). Dans ce cas il faut transformer les variables pour tenir compte de cette spécificité.
+
+![](images/paste-3DB676B2.png)
+
+## Application sur R
+
+Exercice en classe.

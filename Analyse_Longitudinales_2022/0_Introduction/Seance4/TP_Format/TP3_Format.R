@@ -35,12 +35,15 @@ library(TraMineR)
 # - Faire de m?me pour SITMAT
 table(PDP$SITMAT)
 
+length(unique(PDP$IDENT))
+
+
 setwd("D:/IDUP/1_Analyse_Sequence/Fichiers")
 PDP = read.csv2("./TP_Format/PDP_IND_YEAR.csv",stringsAsFactors=F) %>%
   filter(SO_LOG != "") %>%                                      # On garde que les ann?es avec logements
   select(IDENT,Age,ORIG_SOC,SO_LOG,SITMAT,GEO_1,ANNAIS,gen) %>% # Selection des variables
-  mutate(SO_LOG=substr(SO_LOG,3,length(SO_LOG)-2)) %>%          # On enleve les 3 premiers caract?res
-  mutate(SITMAT=substr(SITMAT,4,length(SITMAT)-3))              # On enleve les 4 premiers caract?res
+  mutate(SO_LOG=substr(SO_LOG,3,5)) %>%          # On enleve les 3 premiers caract?res
+  mutate(SITMAT=substr(SITMAT,4,7))              # On enleve les 4 premiers caract?res
 # Voir : ?substr
 
 # Nombre d'individus : 

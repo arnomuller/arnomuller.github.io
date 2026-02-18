@@ -2481,8 +2481,8 @@ border: 0;
   <ul class="collapse">
   <li><a href="#données-variables-2" id="toc-données-variables-2" class="nav-link" data-scroll-target="#données-variables-2">Données &amp; Variables</a></li>
   <li><a href="#ordre-des-modalités-et-couleurs-2" id="toc-ordre-des-modalités-et-couleurs-2" class="nav-link" data-scroll-target="#ordre-des-modalités-et-couleurs-2">Ordre des modalités et couleurs</a></li>
+  <li><a href="#etiquettes-des-points" id="toc-etiquettes-des-points" class="nav-link" data-scroll-target="#etiquettes-des-points">Etiquettes des points</a></li>
   <li><a href="#légende-2" id="toc-légende-2" class="nav-link" data-scroll-target="#légende-2">Légende</a></li>
-  <li><a href="#etiquettes-2" id="toc-etiquettes-2" class="nav-link" data-scroll-target="#etiquettes-2">Etiquettes</a></li>
   <li><a href="#modification-axes-x-et-y-2" id="toc-modification-axes-x-et-y-2" class="nav-link" data-scroll-target="#modification-axes-x-et-y-2">Modification axes X et Y</a></li>
   <li><a href="#textes-titres-2" id="toc-textes-titres-2" class="nav-link" data-scroll-target="#textes-titres-2">Textes &amp; Titres</a></li>
   <li><a href="#export-2" id="toc-export-2" class="nav-link" data-scroll-target="#export-2">Export</a></li>
@@ -2569,12 +2569,12 @@ border: 0;
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Il n’est plus nécessaire d’utiliser la fonction <code>ined_export()</code>, les fonctions de création de graphiques proposent désormais une option pour enregistrer directement les graphiques au format .pdf (voir plus bas), et elles affichent dans Rstudio la “vraie” version du graphique.</p>
+<p>Il n’est plus nécessaire d’utiliser la fonction <code>ined_export()</code>, les fonctions de création de graphiques proposent désormais une option pour enregistrer directement les graphiques au format .pdf et .svg (voir plus bas), et elles affichent dans Rstudio la “vraie” version du graphique.</p>
 </div>
 </div>
 </div>
 <ol start="4" type="1">
-<li>Cliquer-glisser l’image .pdf dans la fiche</li>
+<li>Cliquer-glisser l’image .svg dans la fiche</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Astuces 1 :">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
@@ -2765,9 +2765,9 @@ border: 0;
 <section id="export" class="level3">
 <h3 class="anchored" data-anchor-id="export">Export</h3>
 <ul>
-<li><span style="color:#b34b4f;"><strong>export</strong> : TRUE ou FALSE</span> ; si TRUE : enregistre l’image au format .pdf, si FALSE : affiche uniquement le graphique<br>
+<li><span style="color:#b34b4f;"><strong>export</strong> : TRUE ou FALSE</span> ; si TRUE : enregistre l’image aux formats .pdf et .svg, si FALSE : affiche uniquement le graphique<br>
 </li>
-<li><span style="color:#b34b4f;"><strong>fichier</strong> : chemin et nom du fichier .pdf à enregistrer</span>, par défaut “graphique”.<br>
+<li><span style="color:#b34b4f;"><strong>fichier</strong> : chemin et nom du fichier à enregistrer</span>, par défaut “graphique”.<br>
 </li>
 <li><span style="color:#b34b4f;"><strong>format</strong> : “petit”, “moyen”, “grand”</span>, définit le format du graphique.</li>
 </ul>
@@ -3504,9 +3504,9 @@ border: 0;
 <section id="export-1" class="level3">
 <h3 class="anchored" data-anchor-id="export-1">Export</h3>
 <ul>
-<li><span style="color:#b34b4f;"><strong>export</strong> : TRUE ou FALSE</span> ; si TRUE : enregistre l’image au format .pdf, si FALSE : affiche uniquement le graphique<br>
+<li><span style="color:#b34b4f;"><strong>export</strong> : TRUE ou FALSE</span> ; si TRUE : enregistre l’image au format .pdf et .svg, si FALSE : affiche uniquement le graphique<br>
 </li>
-<li><span style="color:#b34b4f;"><strong>fichier</strong> : chemin et nom du fichier .pdf à enregistrer</span>, par défaut “graphique”.<br>
+<li><span style="color:#b34b4f;"><strong>fichier</strong> : chemin et nom du fichier à enregistrer</span>, par défaut “graphique”.<br>
 </li>
 <li><span style="color:#b34b4f;"><strong>format</strong> : “petit”, “moyen”, “grand”</span>, définit le format du graphique.</li>
 </ul>
@@ -4261,6 +4261,14 @@ border: 0;
 <li><p><strong>var_couleur</strong> : Variable catégorielle qui détermine la couleur des courbes</p></li>
 <li><p><strong>var_typeligne</strong> : Variable catégorielle qui détermine le style des courbes (trait plein, pointillé, etc.)</p></li>
 <li><p><strong>var_facet</strong> : Variable catégorielle qui crée des graphiques côte-à-côte pour chaque modalité d’une variable.</p></li>
+<li><p><span style="color:#b34b4f;"><strong>type_graph</strong> : Type de graphiques :</span></p>
+<ul>
+<li><span style="color:#b34b4f;"><em>“courbes”</em> : faire apparaître uniquement les courbes</span><br>
+</li>
+<li><span style="color:#b34b4f;"><em>“courbes+points”</em> : faire apparaître des courbes et des points</span><br>
+</li>
+<li><span style="color:#b34b4f;"><em>“points”</em> : faire apparaître uniquement les points</span></li>
+</ul></li>
 </ul>
 </section>
 <section id="ordre-des-modalités-et-couleurs-2" class="level3">
@@ -4342,10 +4350,27 @@ border: 0;
 → Exemple : c(“solid”, “dotted”,“dashed”), pour un trait plein, suivi de pointillé, suivi de tirets (voir les options de R)</li>
 </ul>
 </section>
+<section id="etiquettes-des-points" class="level3">
+<h3 class="anchored" data-anchor-id="etiquettes-des-points">Etiquettes des points</h3>
+<ul>
+<li><p><span style="color:#b34b4f;"><strong>etiquette</strong> : Afficher une étiquette de valeur sur les barres.</span></p>
+<ul>
+<li><span style="color:#b34b4f;"><em>“oui”</em> : Affiche toutes les étiquettes</span><br>
+</li>
+<li><span style="color:#b34b4f;"><em>“max”</em> : Affiche uniquement les valeurs maximales</span><br>
+</li>
+<li><span style="color:#b34b4f;"><em>“min”</em> : Affiche uniquement les valeurs minimales</span><br>
+</li>
+<li><span style="color:#b34b4f;"><em>“non”</em> : Pas d’étiquettes</span></li>
+</ul></li>
+<li><p><span style="color:#b34b4f;"><strong>etiquette_min</strong> : Valeur numérique minimale à partir de laquelle afficher les étiquettes.</span></p></li>
+<li><p><span style="color:#b34b4f;"><strong>etiquette_arrondi</strong> : Nombre de chiffre après la virgule pour les étiquettes.</span></p></li>
+</ul>
+</section>
 <section id="légende-2" class="level3">
 <h3 class="anchored" data-anchor-id="légende-2">Légende</h3>
 <ul>
-<li><strong>legende_position</strong> : Position de la légende.
+<li><p><strong>legende_position</strong> : Position de la légende.</p>
 <ul>
 <li><em>Dans la courbe</em> : “courbe”<br>
 </li>
@@ -4360,15 +4385,9 @@ border: 0;
 <li><em>Dans le graphique</em> : coordonnées de la position sur le graphique.<br>
 → Exemple : c(0.75, 0.33), pour placer le coin supérieur gauche de la légende en X = 0.75 et Y = 0.33</li>
 </ul></li>
-<li><strong>legende_ncol_couleur</strong> : Nombre de colonnes sur lesquelles la légende de la couleur est répartie.<br>
-</li>
-<li><strong>legende_ncol_ligne</strong> : Nombre de colonnes sur lesquelles la légende du type de ligne est répartie.</li>
-</ul>
-</section>
-<section id="etiquettes-2" class="level3">
-<h3 class="anchored" data-anchor-id="etiquettes-2">Etiquettes</h3>
-<ul>
-<li><strong>courbe_etiquette_position</strong> : Position de l’étiquette à l’intérieur de la courbe (si légende = “courbe”) :
+<li><p><strong>legende_ncol_couleur</strong> : Nombre de colonnes sur lesquelles la légende de la couleur est répartie.</p></li>
+<li><p><strong>legende_ncol_ligne</strong> : Nombre de colonnes sur lesquelles la légende du type de ligne est répartie.</p></li>
+<li><p><strong>courbe_etiquette_position</strong> : Position de l’étiquette à l’intérieur de la courbe (si légende = “courbe”) :</p>
 <ul>
 <li><em>“ymax”</em> : Place le nom de la courbe à son maximum sur l’axe Y<br>
 </li>
@@ -4380,7 +4399,7 @@ border: 0;
 </li>
 <li>Une valeur numérique entre 0 et 1 : Place le nom de la courbe à l’endroit voulu entre son début (0) et sa fin (1)</li>
 </ul></li>
-<li><strong>courbe_etiquette_lisser_intensite</strong> : Un gradient de 0 à 100 qui lisse l’étiquette dans la courbe (si légende = “courbe”)</li>
+<li><p><strong>courbe_etiquette_lisser_intensite</strong> : Un gradient de 0 à 100 qui lisse l’étiquette dans la courbe (si légende = “courbe”)</p></li>
 </ul>
 </section>
 <section id="modification-axes-x-et-y-2" class="level3">
@@ -4441,9 +4460,9 @@ border: 0;
 <section id="export-2" class="level3">
 <h3 class="anchored" data-anchor-id="export-2">Export</h3>
 <ul>
-<li><span style="color:#b34b4f;"><strong>export</strong> : TRUE ou FALSE</span> ; si TRUE : enregistre l’image au format .pdf, si FALSE : affiche uniquement le graphique<br>
+<li><span style="color:#b34b4f;"><strong>export</strong> : TRUE ou FALSE</span> ; si TRUE : enregistre l’image au format .pdf et .svg, si FALSE : affiche uniquement le graphique<br>
 </li>
-<li><span style="color:#b34b4f;"><strong>fichier</strong> : chemin et nom du fichier .pdf à enregistrer</span>, par défaut “graphique”.<br>
+<li><span style="color:#b34b4f;"><strong>fichier</strong> : chemin et nom du fichier à enregistrer</span>, par défaut “graphique”.<br>
 </li>
 <li><span style="color:#b34b4f;"><strong>format</strong> : “petit”, “moyen”, “grand”</span>, définit le format du graphique.</li>
 </ul>
